@@ -7,8 +7,6 @@ source jpnsecCompetition2019/bin/activate
 
 pip install numpy scipy==0.17.1 algopy matplotlib pandas
 
-sudo apt install gfortran gcc python-dev python-tk git swig liblapack-dev
-
 python go-openmdao-0.10.3.2.py
 
 cd wisdem
@@ -145,9 +143,12 @@ cd dummies
 python setup.py install
 cd ../
 
+cd PostToolForECSympoCompe_20191014
+make
+cd ../
+
 # test wisdem installation
 python wisdem/WISDEM/src/wisdem/lcoe/lcoe_se_assembly.py
 
-cd wisdem/
-cd ../
+# test evaluation module
 python wisdem/windturbine_MOP.py sample/MOP
