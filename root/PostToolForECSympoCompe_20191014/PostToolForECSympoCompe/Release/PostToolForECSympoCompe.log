@@ -1,0 +1,6 @@
+﻿  main.cpp
+c1xx : warning C4199: 2 フェーズの名前参照は、C++/CLI、C++/CX、OpenMP ではサポートされていません。/Zc:twoPhase- を使用します
+c:\users\qqac8\source\repos\posttoolforecsympocompe\posttoolforecsympocompe\main.cpp(39): warning C4101: 'hv': ローカル変数は 1 度も使われていません。
+c:\users\qqac8\source\repos\posttoolforecsympocompe\posttoolforecsympocompe\main.cpp(39): warning C4101: 'hv_by_archive': ローカル変数は 1 度も使われていません。
+  LINK : /LTCG が指定されましたが、コードの生成は必要ありません。リンク コマンド ラインから /LTCG を削除し、リンカーの性能を改善してください。
+  PostToolForECSympoCompe.vcxproj -> C:\Users\qqac8\source\repos\PostToolForECSympoCompe\Release\PostToolForECSympoCompe.exe
