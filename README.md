@@ -11,3 +11,15 @@ cd root
 ./installer_for_jpnsec_compe2019.sh
 cd ../
 ```
+
+
+## To clone this repo 
+
+### Without results folder
+```bash
+git clone git@github.com:fritsche/hhco4wtdop.git
+```
+### Including results folder
+```bash
+git clone --recurse-submodules git@github.com:fritsche/hhco4wtdop.git
+```
