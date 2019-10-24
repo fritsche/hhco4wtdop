@@ -76,6 +76,8 @@ public class NSGAIIRunner {
     }
 
     public static void main(String[] args) {
+        // set log level
+        JMetalLogger.logger.setLevel(Level.INFO);
         // read arguments
         int i = 0;
         long seed = Long.parseLong(args[i++]);

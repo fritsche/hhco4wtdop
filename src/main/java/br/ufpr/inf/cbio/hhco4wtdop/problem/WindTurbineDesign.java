@@ -121,7 +121,8 @@ public class WindTurbineDesign extends AbstractDoubleProblem {
                         }
                     }
 
-                    System.out.println(fecount - 1 + ": " + Arrays.toString(solution.getObjectives()) + "\t" + overallConstraintViolation);
+//                    Logger.getLogger(WindTurbineDesign.class.getName()).log(Level.INFO, "{0}: {1}\t{2}",
+//                            new Object[]{fecount - 1, Arrays.toString(solution.getObjectives()), overallConstraintViolation});
 
                     overallConstraintViolationDegree.setAttribute(solution, overallConstraintViolation);
                     numberOfViolatedConstraints.setAttribute(solution, violatedConstraints);
@@ -129,10 +130,8 @@ public class WindTurbineDesign extends AbstractDoubleProblem {
                     throw new JMetalException("Evaluation module failure! Check evaluation module logs!");
                 }
             }
-        } catch (IOException ex) {
-            Logger.getLogger(WindTurbineDesign.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(WindTurbineDesign.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(WindTurbineDesign.class.getName()).log(Level.SEVERE, "Could not execute eval_solutions.sh bash script!", ex);
         }
     }
 
