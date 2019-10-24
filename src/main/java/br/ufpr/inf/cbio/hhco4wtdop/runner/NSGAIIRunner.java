@@ -21,6 +21,8 @@ import br.ufpr.inf.cbio.hhco.config.AlgorithmConfigurationFactory;
 import br.ufpr.inf.cbio.hhco4wtdop.problem.WindTurbineDesign;
 import br.ufpr.inf.cbio.hhco4wtdop.runner.methodology.ECSymposium2019CompetitionMethodology;
 import br.ufpr.inf.cbio.hhcoanalysis.util.SolutionListUtils;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import org.uma.jmetal.algorithm.Algorithm;
@@ -46,14 +48,15 @@ public class NSGAIIRunner {
         return configurationFactory.getAlgorithmConfiguration(algorithmName).configure(populationSize, maxEvaluations, problem);
     }
 
-    private void run(Algorithm<List<DoubleSolution>> algorithm) {
+    private long run(Algorithm<List<DoubleSolution>> algorithm) {
         long initTime = System.currentTimeMillis();
         algorithm.run();
         long computingTime = System.currentTimeMillis() - initTime;
         JMetalLogger.logger.log(Level.INFO, "Total execution time: {0}ms", computingTime);
+        return computingTime;
     }
 
-    private void printResult(Algorithm<List<DoubleSolution>> algorithm, int id, String experimentBaseDirectory) {
+    private void printResult(Algorithm<List<DoubleSolution>> algorithm, int id, String experimentBaseDirectory, long computingTime) throws IOException {
         String methodologyName = "ECSymposium2019CompetitionMethodology";
         String problemName = "WindTurbineDesign";
         int m = 5;
@@ -72,9 +75,17 @@ public class NSGAIIRunner {
                 .setVarFileOutputContext(new DefaultFileOutputContext(folder + "VAR" + id + ".tsv"))
                 .setFunFileOutputContext(new DefaultFileOutputContext(folder + "FUN" + id + ".tsv"))
                 .print();
+
+        // log elapsed time
+        DefaultFileOutputContext context = new DefaultFileOutputContext(folder + "TIME" + id + ".tsv");
+        try (BufferedWriter writer = context.getFileWriter()) {
+            writer.write(Long.toString(computingTime) + context.getSeparator());
+            writer.newLine();
+            writer.close();
+        }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // set log level
         JMetalLogger.logger.setLevel(Level.INFO);
         // read arguments
@@ -89,7 +100,7 @@ public class NSGAIIRunner {
         // run algorithm
         NSGAIIRunner runner = new NSGAIIRunner();
         Algorithm<List<DoubleSolution>> algorithm = runner.configure(algorithmName, id);
-        runner.run(algorithm);
-        runner.printResult(algorithm, id, experimentBaseDirectory);
+        long computingTime = runner.run(algorithm);
+        runner.printResult(algorithm, id, experimentBaseDirectory, computingTime);
     }
 }
