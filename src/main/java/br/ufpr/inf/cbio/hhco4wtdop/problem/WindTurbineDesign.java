@@ -39,18 +39,6 @@ public class WindTurbineDesign extends AbstractDoubleProblem {
     public OverallConstraintViolation<DoubleSolution> overallConstraintViolationDegree;
     public NumberOfViolatedConstraints<DoubleSolution> numberOfViolatedConstraints;
 
-    // defining the lower and upper limits
-    public static final Double[] LOWERLIMIT = {
-        1.0, 1.0, 1.0, 1.0, 0.1, -5.0, -5.0, -5.0, -5.0, 0.005, 0.005,
-        0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, -6.3, -6.3,
-        -6.3, 6.0, 6.0, 50.0, 20.0, 3.87, 3.87, 3.87, 0.005, 0.005, 0.005};
-
-    public static final Double[] UPPERLIMIT = {
-        5.3, 5.3, 5.3, 5.3, 0.3, 30.0, 30.0, 30.0, 30.0, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2,
-        0.2, 0.2, 0.2, 0.0, 0.0, 0.0, 14.0, 20.0, 80.0, 70.0, 6.3, 6.3, 6.3, 0.1, 0.1, 0.1};
-
-    public Double[] diff;
-
     private final String algorithmName;
     private final String runId;
     private int fecount; // fitness evaluations count
@@ -64,16 +52,11 @@ public class WindTurbineDesign extends AbstractDoubleProblem {
         setNumberOfConstraints(22);
         setName("WindTurbineDesign");
 
-        List<Double> lowerLimit = Arrays.asList(LOWERLIMIT);
-        List<Double> upperLimit = Arrays.asList(UPPERLIMIT);
+        List<Double> lowerLimit = new ArrayList<Double>(Collections.nCopies(getNumberOfVariables(), 0.0));
+        List<Double> upperLimit = new ArrayList<Double>(Collections.nCopies(getNumberOfVariables(), 1.0));
 
         setLowerLimit(lowerLimit);
         setUpperLimit(upperLimit);
-
-        diff = new Double[getNumberOfVariables()];
-        for (int i = 0; i < getNumberOfVariables(); i++) {
-            diff[i] = UPPERLIMIT[i] - LOWERLIMIT[i];
-        }
 
         overallConstraintViolationDegree = new OverallConstraintViolation<>();
         numberOfViolatedConstraints = new NumberOfViolatedConstraints<>();
@@ -89,7 +72,7 @@ public class WindTurbineDesign extends AbstractDoubleProblem {
                 .add(Integer.toString(fecount++));
 
         for (int i = 0; i < solution.getNumberOfVariables(); i++) {
-            command.add(Double.toString((solution.getVariableValue(i) - LOWERLIMIT[i]) / diff[i]));
+            command.add(Double.toString(solution.getVariableValue(i));
         }
 
         try {
