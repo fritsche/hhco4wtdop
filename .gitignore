@@ -3,6 +3,7 @@ root/fusedwind/
 root/wisdem/*/
 root/jpnsecCompetition2019/
 *_log.txt
+*.log*
 
 # Created by https://www.gitignore.io/api/code,linux,macos,maven,python,windows,eclipse,netbeans,executable,intellij+all
 # Edit at https://www.gitignore.io/?templates=code,linux,macos,maven,python,windows,eclipse,netbeans,executable,intellij+all

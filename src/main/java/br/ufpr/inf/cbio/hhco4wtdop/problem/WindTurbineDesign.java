@@ -26,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
 import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.JMetalException;
 import org.uma.jmetal.util.solutionattribute.impl.NumberOfViolatedConstraints;
 import org.uma.jmetal.util.solutionattribute.impl.OverallConstraintViolation;
 
@@ -48,6 +49,8 @@ public class WindTurbineDesign extends AbstractDoubleProblem {
         5.3, 5.3, 5.3, 5.3, 0.3, 30.0, 30.0, 30.0, 30.0, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2,
         0.2, 0.2, 0.2, 0.0, 0.0, 0.0, 14.0, 20.0, 80.0, 70.0, 6.3, 6.3, 6.3, 0.1, 0.1, 0.1};
 
+    public Double[] diff;
+
     private final String algorithmName;
     private final String runId;
     private int fecount; // fitness evaluations count
@@ -67,6 +70,11 @@ public class WindTurbineDesign extends AbstractDoubleProblem {
         setLowerLimit(lowerLimit);
         setUpperLimit(upperLimit);
 
+        diff = new Double[getNumberOfVariables()];
+        for (int i = 0; i < getNumberOfVariables(); i++) {
+            diff[i] = UPPERLIMIT[i] - LOWERLIMIT[i];
+        }
+
         overallConstraintViolationDegree = new OverallConstraintViolation<>();
         numberOfViolatedConstraints = new NumberOfViolatedConstraints<>();
     }
@@ -81,12 +89,13 @@ public class WindTurbineDesign extends AbstractDoubleProblem {
                 .add(Integer.toString(fecount++));
 
         for (int i = 0; i < solution.getNumberOfVariables(); i++) {
-            command.add(Double.toString(solution.getVariableValue(i)));
+            command.add(Double.toString((solution.getVariableValue(i) - LOWERLIMIT[i]) / diff[i]));
         }
 
         try {
             Runtime r = Runtime.getRuntime();
             Process p = r.exec(command.toString());
+            p.waitFor();
             try (BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
                 String inputLine;
                 if ((inputLine = in.readLine()) != null) {
@@ -95,6 +104,8 @@ public class WindTurbineDesign extends AbstractDoubleProblem {
                     for (String string : objectives) {
                         solution.setObjective(index++, Double.parseDouble(string));
                     }
+                } else {
+                    throw new JMetalException("Evaluation module failure! Check evaluation module logs!");
                 }
                 if ((inputLine = in.readLine()) != null) {
                     double[] constraint = Arrays.stream(inputLine.split("\t"))
@@ -110,11 +121,17 @@ public class WindTurbineDesign extends AbstractDoubleProblem {
                         }
                     }
 
+                    System.out.println(fecount - 1 + ": " + Arrays.toString(solution.getObjectives()) + "\t" + overallConstraintViolation);
+
                     overallConstraintViolationDegree.setAttribute(solution, overallConstraintViolation);
                     numberOfViolatedConstraints.setAttribute(solution, violatedConstraints);
+                } else {
+                    throw new JMetalException("Evaluation module failure! Check evaluation module logs!");
                 }
             }
         } catch (IOException ex) {
+            Logger.getLogger(WindTurbineDesign.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
             Logger.getLogger(WindTurbineDesign.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
