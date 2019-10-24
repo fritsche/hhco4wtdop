@@ -53,8 +53,7 @@ public class NSGAIIRunner {
         JMetalLogger.logger.log(Level.INFO, "Total execution time: {0}ms", computingTime);
     }
 
-    private void printResult(Algorithm<List<DoubleSolution>> algorithm, int id) {
-        String experimentBaseDirectory = "root/experiment/";
+    private void printResult(Algorithm<List<DoubleSolution>> algorithm, int id, String experimentBaseDirectory) {
         String methodologyName = "ECSymposium2019CompetitionMethodology";
         String problemName = "WindTurbineDesign";
         int m = 5;
@@ -81,7 +80,8 @@ public class NSGAIIRunner {
         // read arguments
         int i = 0;
         long seed = Long.parseLong(args[i++]);
-        int id = Integer.parseInt(args[i++]);    
+        int id = Integer.parseInt(args[i++]);
+        String experimentBaseDirectory = args[i++];
         // set constants
         String algorithmName = "NSGAII";
         // set seed
@@ -90,6 +90,6 @@ public class NSGAIIRunner {
         NSGAIIRunner runner = new NSGAIIRunner();
         Algorithm<List<DoubleSolution>> algorithm = runner.configure(algorithmName, id);
         runner.run(algorithm);
-        runner.printResult(algorithm, id);
+        runner.printResult(algorithm, id, experimentBaseDirectory);
     }
 }
