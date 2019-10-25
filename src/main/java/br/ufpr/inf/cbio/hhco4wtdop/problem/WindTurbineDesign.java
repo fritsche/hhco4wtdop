@@ -19,7 +19,9 @@ package br.ufpr.inf.cbio.hhco4wtdop.problem;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.logging.Level;
@@ -52,8 +54,8 @@ public class WindTurbineDesign extends AbstractDoubleProblem {
         setNumberOfConstraints(22);
         setName("WindTurbineDesign");
 
-        List<Double> lowerLimit = new ArrayList<Double>(Collections.nCopies(getNumberOfVariables(), 0.0));
-        List<Double> upperLimit = new ArrayList<Double>(Collections.nCopies(getNumberOfVariables(), 1.0));
+        List<Double> lowerLimit = new ArrayList<>(Collections.nCopies(getNumberOfVariables(), 0.0));
+        List<Double> upperLimit = new ArrayList<>(Collections.nCopies(getNumberOfVariables(), 1.0));
 
         setLowerLimit(lowerLimit);
         setUpperLimit(upperLimit);
@@ -72,7 +74,7 @@ public class WindTurbineDesign extends AbstractDoubleProblem {
                 .add(Integer.toString(fecount++));
 
         for (int i = 0; i < solution.getNumberOfVariables(); i++) {
-            command.add(Double.toString(solution.getVariableValue(i));
+            command.add(Double.toString(solution.getVariableValue(i)));
         }
 
         try {
