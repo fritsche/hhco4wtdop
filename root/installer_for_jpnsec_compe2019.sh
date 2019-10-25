@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 pip install virtualenv --user
 virtualenv -p python2.7 jpnsecCompetition2019
 
