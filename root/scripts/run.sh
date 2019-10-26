@@ -10,7 +10,7 @@ if [ "$#" -ne 2 ]; then
 fi
 
 dir=$(pwd)
-execute="bash $dir/scripts/addbatch.sh"
+execute="bash $dir/root/scripts/addbatch.sh"
 
 mvn package -T 1C -DskipTests
 
