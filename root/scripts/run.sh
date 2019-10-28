@@ -17,6 +17,7 @@ mvn package -T 1C -DskipTests
 # read args
 algorithm=$1
 replace=$2 # execute and replace if result exists
+host=$(hostname)
 
 # set constants
 runs=21
@@ -29,7 +30,7 @@ for (( id = 0; id < $runs; id++ )); do
     # each objective, problem and independent run (id) uses a different seed
     seed=${seeds[$seed_index]}
     # different algorithms on the same problem instance uses the same seed
-    output="$dir/experiment/$algorithm/"
+    output="$dir/experiment/$host/$algorithm/"
     file="$output/FUN$id.tsv"
     if [ ! -s $file ] || [ "$replace" = true ]; then
         params="-s $seed -id $id -P $output -a $algorithm -p WindTurbineDesign"

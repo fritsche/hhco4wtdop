@@ -1,6 +1,6 @@
 {
     "group name" : "who",
-    "number of solutions" : 500,
+    "number of solutions" : 1,
     "number of generations" : 1,
     "number of runs" : 1,
 	"digits of generation" : 4,

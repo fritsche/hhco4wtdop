@@ -158,6 +158,9 @@ int main(int argc, char *argv[])
 			pareto_by_archive.destroy();
 			solutions.destroy();
 			pareto.destroy();
+
+			std::cout << gen  << "th gen is finished." << std::endl;
+	
 		}
 
 		unbounded_archive.resize_solution_set(0);

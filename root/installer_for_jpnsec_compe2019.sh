@@ -144,6 +144,7 @@ python setup.py install
 cd ../
 
 cd PostToolForECSympoCompe_20191014
+mkdir -p ReleaseLinux
 make
 cd ../
 
