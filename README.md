@@ -6,7 +6,7 @@ Cooperative based Hyper-heuristic for a Wind Turbine Design Optimization Problem
 ## Evaluation Module installation
 
 ```bash
-sudo apt install gfortran gcc python-dev python-tk git swig liblapack-dev
+sudo apt install gfortran gcc python-dev python-tk git swig liblapack-dev at python-pip virtualenv
 cd root
 ./installer_for_jpnsec_compe2019.sh
 cd ../
