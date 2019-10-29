@@ -39,10 +39,9 @@ public class ECSymposium2019CompetitionMethodology implements Methodology {
          * optimization within a night.Since it takes about 3 seconds to
          * evaluate one design candidate, it takes about 8 hours to complete one
          * optimization case. However, some algorithms use the number of
-         * generations as stop criteria. For this reason, we have bounded all
-         * algorithms to 9,870, which is 47 generations for 210 solutions.
+         * generations as stop criteria.
          */
-        this.maxFitnessEvaluations = (10000 / populationSize) * populationSize;
+        this.maxFitnessEvaluations = 10000;
     }
 
     @Override
