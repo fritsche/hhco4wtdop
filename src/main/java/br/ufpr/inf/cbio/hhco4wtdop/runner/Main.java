@@ -17,9 +17,11 @@
 package br.ufpr.inf.cbio.hhco4wtdop.runner;
 
 import br.ufpr.inf.cbio.hhco.config.AlgorithmConfigurationFactory;
+import br.ufpr.inf.cbio.hhco.runner.methodology.Methodology;
 import br.ufpr.inf.cbio.hhco.util.output.Utils;
 import br.ufpr.inf.cbio.hhco4wtdop.problem.WindTurbineDesign;
 import br.ufpr.inf.cbio.hhco4wtdop.runner.methodology.ECSymposium2019CompetitionMethodology;
+import br.ufpr.inf.cbio.hhco4wtdop.runner.methodology.WaterMethodology;
 import br.ufpr.inf.cbio.hhcoanalysis.util.SolutionListUtils;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -34,6 +36,8 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.uma.jmetal.algorithm.Algorithm;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.problem.multiobjective.Water;
 import org.uma.jmetal.solution.DoubleSolution;
 import org.uma.jmetal.util.JMetalException;
 import org.uma.jmetal.util.JMetalLogger;
@@ -52,6 +56,8 @@ public class Main {
     private String experimentBaseDirectory;
     private String algorithmName;
     private String problemName;
+    private Problem problem;
+    private Methodology methodology;
 
     public Main(CommandLine cmd) {
         String aux;
@@ -128,8 +134,18 @@ public class Main {
 
     private Algorithm<List<DoubleSolution>> configure() {
         JMetalRandom.getInstance().setSeed(seed);
-        WindTurbineDesign problem = new WindTurbineDesign(algorithmName, id);
-        ECSymposium2019CompetitionMethodology methodology = new ECSymposium2019CompetitionMethodology();
+        switch (problemName) {
+            case "WindTurbineDesign":
+                problem = new WindTurbineDesign(algorithmName, id);
+                methodology = new ECSymposium2019CompetitionMethodology();
+                break;
+            case "Water":
+                problem = new Water();
+                methodology = new WaterMethodology();
+                break;
+            default:
+                throw new JMetalException("No configuration found for problem [" + problemName + "]");
+        }
         int populationSize = methodology.getPopulationSize();
         int maxEvaluations = methodology.getMaxFitnessEvaluations();
         AlgorithmConfigurationFactory configurationFactory = new AlgorithmConfigurationFactory();
@@ -145,14 +161,9 @@ public class Main {
     }
 
     private void printResult(Algorithm<List<DoubleSolution>> algorithm, long computingTime) throws IOException {
-        String methodologyName;
-        int m;
-        if (problemName.equals("WindTurbineDesign")) {
-            methodologyName = "ECSymposium2019CompetitionMethodology";
-            m = 5;
-        } else {
-            throw new JMetalException("No configuration found for problem [" + problemName + "]");
-        }
+        String methodologyName = methodology.getClass().getSimpleName();
+        int m = problem.getNumberOfObjectives();
+
         List population = SolutionListUtils.getNondominatedSolutions(algorithm.getResult());
         String folder = experimentBaseDirectory + "/"
                 + methodologyName + "/"
