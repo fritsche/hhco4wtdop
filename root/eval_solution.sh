@@ -25,23 +25,12 @@ vars=( "$@" )
 folder="root/experiment/"$alg"/interface/work_"$id"th"
 mkdir -p $folder
 
-# log
-echo "LOG " &> $folder"/gen"$fe"_log.txt"
-echo "alg: "$alg &>> $folder"/gen"$fe"_log.txt"
-echo "id: "$id &>> $folder"/gen"$fe"_log.txt"
-echo "fe: "$fe &>> $folder"/gen"$fe"_log.txt"
-echo "vars: "${vars[*]} | tr " " "\t" &>> $folder"/gen"$fe"_log.txt"
-
 # create vars file
 echo ${vars[*]} | tr " " "\t" > $folder/pop_vars_eval.txt
 
-# more log
-echo "input: " &>> $folder"/gen"$fe"_log.txt"
-cat $folder/pop_vars_eval.txt &>> $folder"/gen"$fe"_log.txt"
-
 # evaluate objs and cons
 source root/jpnsecCompetition2019/bin/activate
-python root/wisdem/windturbine_MOP.py $folder &>> $folder"/gen"$fe"_log.txt"
+python root/wisdem/windturbine_MOP.py $folder &> /dev/null
 
 # output objs and cons
 cat $folder/pop_objs_eval.txt
