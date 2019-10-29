@@ -4,8 +4,8 @@ set -e
 
 source root/scripts/seeds.sh
 
-if [ "$#" -ne 2 ]; then
-	echo "Expected: <algorithm> <replace[true|false]>"
+if [ "$#" -ne 3 ]; then
+	echo "Expected: <algorithm[NSGAII]> <problem[WindTurbineDesign|Water]> <replace[true|false]>"
 	exit 1
 fi
 
@@ -16,7 +16,8 @@ mvn package -T 1C -DskipTests
 
 # read args
 algorithm=$1
-replace=$2 # execute and replace if result exists
+problem=$2
+replace=$3 # execute and replace if result exists
 host=$(hostname)
 
 # set constants
@@ -30,10 +31,10 @@ for (( id = 0; id < $runs; id++ )); do
     # each objective, problem and independent run (id) uses a different seed
     seed=${seeds[$seed_index]}
     # different algorithms on the same problem instance uses the same seed
-    output="$dir/experiment/$host/$algorithm/"
+    output="$dir/root/experiment/$host/"
     file="$output/FUN$id.tsv"
     if [ ! -s $file ] || [ "$replace" = true ]; then
-        params="-s $seed -id $id -P $output -a $algorithm -p WindTurbineDesign"
+        params="-s $seed -id $id -P $output -a $algorithm -p $problem"
         $execute "$javacommand $params 2>> $algorithm.$seed.log"
     fi
     seed_index=$((seed_index+1))
