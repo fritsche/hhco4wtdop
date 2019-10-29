@@ -23,3 +23,7 @@ git clone git@github.com:fritsche/hhco4wtdop.git
 ```bash
 git clone --recurse-submodules git@github.com:fritsche/hhco4wtdop.git
 ```
+### Install Dependencies
+```bash
+sudo apt install at python-pip virtualenv maven
+```
