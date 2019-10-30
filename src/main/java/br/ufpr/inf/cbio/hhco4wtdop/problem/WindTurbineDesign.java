@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.StringJoiner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.uma.jmetal.problem.ConstrainedProblem;
 import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
 import org.uma.jmetal.solution.DoubleSolution;
 import org.uma.jmetal.util.JMetalException;
@@ -36,7 +37,7 @@ import org.uma.jmetal.util.solutionattribute.impl.OverallConstraintViolation;
  *
  * @author Gian Fritsche <gmfritsche at inf.ufpr.br>
  */
-public class WindTurbineDesign extends AbstractDoubleProblem {
+public class WindTurbineDesign extends AbstractDoubleProblem implements ConstrainedProblem<DoubleSolution> {
 
     public OverallConstraintViolation<DoubleSolution> overallConstraintViolationDegree;
     public NumberOfViolatedConstraints<DoubleSolution> numberOfViolatedConstraints;
@@ -118,6 +119,11 @@ public class WindTurbineDesign extends AbstractDoubleProblem {
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(WindTurbineDesign.class.getName()).log(Level.SEVERE, "Could not execute eval_solutions.sh bash script!", ex);
         }
+    }
+
+    @Override
+    public void evaluateConstraints(DoubleSolution solution) {
+        // constraints are computed along side the objectives
     }
 
 }
