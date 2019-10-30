@@ -37,7 +37,7 @@ for algorithm in "${algorithms[@]}"; do
         file="$output/FUN$id.tsv"
         if [ ! -s $file ] || [ "$replace" = true ]; then
             params="-s $seed -id $id -P $output -a $algorithm -p $problem"
-            $execute "$javacommand $params 2>> $algorithm.$seed.log"
+            $execute "$javacommand $params 2> $algorithm.$seed.log"
         fi
         seed_index=$((seed_index+1))
     done
