@@ -41,7 +41,7 @@ public class TestProblem extends AbstractDoubleProblem {
     public TestProblem() {
         setNumberOfVariables(32);
         setNumberOfObjectives(5);
-        setNumberOfConstraints(22);
+        setNumberOfConstraints(10);
         setName("Test");
 
         List<Double> lowerLimit = new ArrayList<>(Collections.nCopies(100, 0.0));
@@ -99,8 +99,8 @@ public class TestProblem extends AbstractDoubleProblem {
         }
         evaluationsCount++;
 
-        Logger.getLogger(WindTurbineDesign.class.getName()).log(Level.INFO, "{0}: {1}%",
-                new Object[]{evaluationsCount, feasibleCount / (double) evaluationsCount * 100});
+        Logger.getLogger(WindTurbineDesign.class.getName()).log(Level.INFO, "{0}: {1}, {2}, {3}%",
+                new Object[]{evaluationsCount, violatedConstraints, feasibleCount, feasibleCount / (double) evaluationsCount * 100});
 
         overallConstraintViolationDegree.setAttribute(solution, overallConstraintViolation);
         numberOfViolatedConstraints.setAttribute(solution, violatedConstraints);
