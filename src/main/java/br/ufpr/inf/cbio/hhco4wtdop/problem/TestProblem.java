@@ -19,6 +19,8 @@ package br.ufpr.inf.cbio.hhco4wtdop.problem;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
 import org.uma.jmetal.solution.DoubleSolution;
 import org.uma.jmetal.util.solutionattribute.impl.NumberOfViolatedConstraints;
@@ -33,10 +35,13 @@ public class TestProblem extends AbstractDoubleProblem {
     public OverallConstraintViolation<DoubleSolution> overallConstraintViolationDegree;
     public NumberOfViolatedConstraints<DoubleSolution> numberOfViolatedConstraints;
 
+    private int evaluationsCount;
+    private int feasibleCount;
+
     public TestProblem() {
-        setNumberOfVariables(100);
+        setNumberOfVariables(32);
         setNumberOfObjectives(5);
-        setNumberOfConstraints(1);
+        setNumberOfConstraints(22);
         setName("Test");
 
         List<Double> lowerLimit = new ArrayList<>(Collections.nCopies(100, 0.0));
@@ -47,6 +52,9 @@ public class TestProblem extends AbstractDoubleProblem {
 
         overallConstraintViolationDegree = new OverallConstraintViolation<>();
         numberOfViolatedConstraints = new NumberOfViolatedConstraints<>();
+
+        evaluationsCount = 0;
+        feasibleCount = 0;
     }
 
     @Override
@@ -71,19 +79,28 @@ public class TestProblem extends AbstractDoubleProblem {
     }
 
     public void evaluateConstraints(DoubleSolution solution) {
-        double constraint = 0.0;
+        double[] constraint = new double[getNumberOfConstraints()];
         double[] x = new double[solution.getNumberOfVariables()];
-        for (int i = 0; i < solution.getNumberOfVariables(); i++) {
+        for (int i = 0; i < this.getNumberOfConstraints(); i++) {
             x[i] = solution.getVariableValue(i);
-            constraint += x[i] - Math.floor(x[i]) - 0.5;
+            constraint[i] = x[i] - Math.floor(x[i]) - (1.0 - (1.0 / ((double) i + 2.0)));
         }
 
         double overallConstraintViolation = 0.0;
         int violatedConstraints = 0;
-        if (constraint < 0.0) {
-            overallConstraintViolation += constraint;
-            violatedConstraints++;
+        for (int i = 0; i < getNumberOfConstraints(); i++) {
+            if (constraint[i] < 0.0) {
+                overallConstraintViolation += constraint[i];
+                violatedConstraints++;
+            }
         }
+        if (overallConstraintViolation == 0.0) {
+            feasibleCount++;
+        }
+        evaluationsCount++;
+
+        Logger.getLogger(WindTurbineDesign.class.getName()).log(Level.INFO, "{0}: {1}%",
+                new Object[]{evaluationsCount, feasibleCount / (double) evaluationsCount * 100});
 
         overallConstraintViolationDegree.setAttribute(solution, overallConstraintViolation);
         numberOfViolatedConstraints.setAttribute(solution, violatedConstraints);

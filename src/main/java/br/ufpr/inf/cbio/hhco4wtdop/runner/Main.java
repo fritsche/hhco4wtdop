@@ -19,6 +19,7 @@ package br.ufpr.inf.cbio.hhco4wtdop.runner;
 import br.ufpr.inf.cbio.hhco.config.AlgorithmConfigurationFactory;
 import br.ufpr.inf.cbio.hhco.runner.methodology.Methodology;
 import br.ufpr.inf.cbio.hhco.util.output.Utils;
+import br.ufpr.inf.cbio.hhco4wtdop.problem.TestProblem;
 import br.ufpr.inf.cbio.hhco4wtdop.problem.WindTurbineDesign;
 import br.ufpr.inf.cbio.hhco4wtdop.runner.methodology.ECSymposium2019CompetitionMethodology;
 import br.ufpr.inf.cbio.hhco4wtdop.runner.methodology.WaterMethodology;
@@ -103,9 +104,9 @@ public class Main {
             options.addOption(Option.builder("s").longOpt("seed").hasArg().argName("seed")
                     .desc("set the seed for JMetalRandom, default System.currentTimeMillis()").build());
             options.addOption(Option.builder("a").longOpt("algorithm").hasArg().argName("algorithm")
-                    .desc("set the algorithm to be executed: NSGAII (default)").build());
+                    .desc("set the algorithm to be executed: [NSGAII|HypE]").build());
             options.addOption(Option.builder("p").longOpt("problem").hasArg().argName("problem")
-                    .desc("set the problem instance: [Water|WindTurbineDesign].").build());
+                    .desc("set the problem instance: [WindTurbineDesign|Water|Test].").build());
 
             // parse command line
             cmd = parser.parse(options, args);
@@ -142,6 +143,10 @@ public class Main {
             case "Water":
                 problem = new Water();
                 methodology = new WaterMethodology();
+                break;
+            case "Test":
+                problem = new TestProblem();
+                methodology = new ECSymposium2019CompetitionMethodology();
                 break;
             default:
                 throw new JMetalException("No configuration found for problem [" + problemName + "]");
