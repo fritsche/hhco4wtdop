@@ -5,7 +5,8 @@ set -e
 source root/scripts/seeds.sh
 
 if [ "$#" -lt 3 ]; then
-	echo "Expected: <problem[WindTurbineDesign|Water]> <replace[true|false]> and list of algorithms <Alg1 Alg2 ...>"
+	echo "Expected: <problem[WindTurbineDesign|Water|Test]> <replace[true|false]> and list of algorithms <Alg1 Alg2 ...>"
+    echo "\t Algorithms: (NSGAII HypE NSGAIII SPEA2 SPEA2SDE ThetaDEA)"
 	exit 1
 fi
 

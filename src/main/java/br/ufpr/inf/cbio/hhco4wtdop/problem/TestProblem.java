@@ -66,9 +66,8 @@ public class TestProblem extends AbstractDoubleProblem {
 
         for (int i = 0; i < solution.getNumberOfVariables(); i++) {
             x[i] = solution.getVariableValue(i);
-            xf[i] = Math.floor(x[i]);
             for (int j = 0; j < solution.getNumberOfObjectives(); j++) {
-                fx[j] += (xf[i] == (double) j) ? (1.0) : (0.0);
+                fx[j] += Math.abs(x[i] - (double) j);
             }
         }
         for (int j = 0; j < solution.getNumberOfObjectives(); j++) {
