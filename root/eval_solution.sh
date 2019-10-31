@@ -18,7 +18,7 @@ alg=$1; shift
 id=$1; shift
 id=$(printf "%03d" $id)
 fe=$1; shift
-fe=$(printf "%04d" $fe)
+fe=$(printf "%05d" $fe)
 vars=( "$@" )
 
 # create algorithm result folder
