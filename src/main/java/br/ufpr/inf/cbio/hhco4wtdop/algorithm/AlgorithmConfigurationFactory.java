@@ -16,9 +16,11 @@
  */
 package br.ufpr.inf.cbio.hhco4wtdop.algorithm;
 
+import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEADD.CMOEADDConfiguration;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEAD.CMOEADConfiguration;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEAD.CMOEAD;
 import br.ufpr.inf.cbio.hhco.config.AlgorithmConfiguration;
+import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEADD.CMOEADD;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEADSBX.CMOEADSBX;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEADSBX.CMOEADSBXConfiguration;
 
@@ -34,6 +36,8 @@ public class AlgorithmConfigurationFactory extends br.ufpr.inf.cbio.hhco.config.
             return new CMOEADConfiguration();
         } else if (algorithm.equals(CMOEADSBX.class.getSimpleName())) {
             return new CMOEADSBXConfiguration();
+        } else if (algorithm.equals(CMOEADD.class.getSimpleName())) {
+            return new CMOEADDConfiguration();
         } else {
             return super.getAlgorithmConfiguration(algorithm);
         }
