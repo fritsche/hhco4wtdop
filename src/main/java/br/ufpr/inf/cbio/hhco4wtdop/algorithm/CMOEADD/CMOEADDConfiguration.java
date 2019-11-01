@@ -34,7 +34,7 @@ public class CMOEADDConfiguration extends MOEADDConfiguration {
 
         setup();
 
-        return new CMOEADDBuilder(problem).setCrossover(crossover)
+        return (CMOEADD) new CMOEADDBuilder(problem).setCrossover(crossover)
                 .setMutation(mutation)
                 .setMaxEvaluations(maxFitnessEvaluations)
                 .setPopulationSize(popSize).build();

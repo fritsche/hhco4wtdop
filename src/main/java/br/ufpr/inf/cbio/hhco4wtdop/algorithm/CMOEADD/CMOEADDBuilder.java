@@ -25,6 +25,7 @@ import org.uma.jmetal.util.AlgorithmBuilder;
 /**
  *
  * @author Gian Fritsche <gmfritsche at inf.ufpr.br>
+ * @param <S>
  */
 public class CMOEADDBuilder<S extends Solution<?>> extends MOEADDBuilder<S> implements AlgorithmBuilder<MOEADD<S>> {
 
@@ -36,4 +37,6 @@ public class CMOEADDBuilder<S extends Solution<?>> extends MOEADDBuilder<S> impl
     public CMOEADD<S> build() {
         return new CMOEADD(this);
     }
+    
+    
 }
