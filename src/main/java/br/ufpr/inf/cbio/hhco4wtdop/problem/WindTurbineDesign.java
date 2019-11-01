@@ -37,7 +37,7 @@ import org.uma.jmetal.util.solutionattribute.impl.OverallConstraintViolation;
  *
  * @author Gian Fritsche <gmfritsche at inf.ufpr.br>
  */
-public class WindTurbineDesign extends AbstractDoubleProblem implements ConstrainedProblem<DoubleSolution> {
+public class WindTurbineDesign extends AbstractDoubleProblem {
 
     public OverallConstraintViolation<DoubleSolution> overallConstraintViolationDegree;
     public NumberOfViolatedConstraints<DoubleSolution> numberOfViolatedConstraints;
@@ -119,11 +119,6 @@ public class WindTurbineDesign extends AbstractDoubleProblem implements Constrai
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(WindTurbineDesign.class.getName()).log(Level.SEVERE, "Could not execute eval_solutions.sh bash script!", ex);
         }
-    }
-
-    @Override
-    public void evaluateConstraints(DoubleSolution solution) {
-        // constraints are computed along side the objectives
     }
 
 }

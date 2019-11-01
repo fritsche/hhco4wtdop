@@ -16,14 +16,13 @@
  */
 package br.ufpr.inf.cbio.hhco4wtdop.runner;
 
-import br.ufpr.inf.cbio.hhco.config.AlgorithmConfigurationFactory;
 import br.ufpr.inf.cbio.hhco.runner.methodology.Methodology;
 import br.ufpr.inf.cbio.hhco.util.output.Utils;
+import br.ufpr.inf.cbio.hhco4wtdop.algorithm.AlgorithmConfigurationFactory;
 import br.ufpr.inf.cbio.hhco4wtdop.problem.TestProblem;
 import br.ufpr.inf.cbio.hhco4wtdop.problem.WindTurbineDesign;
 import br.ufpr.inf.cbio.hhco4wtdop.runner.methodology.ECSymposium2019CompetitionMethodology;
 import br.ufpr.inf.cbio.hhco4wtdop.runner.methodology.WaterMethodology;
-import br.ufpr.inf.cbio.hhcoanalysis.util.SolutionListUtils;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
@@ -42,6 +41,7 @@ import org.uma.jmetal.problem.multiobjective.Water;
 import org.uma.jmetal.solution.DoubleSolution;
 import org.uma.jmetal.util.JMetalException;
 import org.uma.jmetal.util.JMetalLogger;
+import org.uma.jmetal.util.SolutionListUtils;
 import org.uma.jmetal.util.fileoutput.SolutionListOutput;
 import org.uma.jmetal.util.fileoutput.impl.DefaultFileOutputContext;
 import org.uma.jmetal.util.pseudorandom.JMetalRandom;

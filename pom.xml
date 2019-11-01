@@ -13,8 +13,8 @@
     <dependencies>
         <dependency>
 	    <groupId>com.github.fritsche</groupId>
-	    <artifactId>hhcoanalysis</artifactId>
-	    <version>3ae16e6570</version>
+	    <artifactId>hhco</artifactId>
+	    <version>d17b110395</version>
 	</dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
