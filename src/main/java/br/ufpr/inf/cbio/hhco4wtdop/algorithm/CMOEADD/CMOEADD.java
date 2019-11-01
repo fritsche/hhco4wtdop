@@ -17,25 +17,27 @@
 package br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEADD;
 
 import br.ufpr.inf.cbio.hhco.algorithm.MOEADD.MOEADD;
-import org.uma.jmetal.problem.Problem;
+import br.ufpr.inf.cbio.hhco.algorithm.MOEADD.MOEADDBuilder;
 import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.solution.Solution;
 import org.uma.jmetal.util.comparator.DominanceComparator;
 
 /**
  *
  * @author Gian Fritsche <gmfritsche at inf.ufpr.br>
+ * @param <S>
  */
-public class CMOEADD extends MOEADD<DoubleSolution> {
+public class CMOEADD<S extends Solution<?>> extends MOEADD<S> {
 
     private final DominanceComparator<DoubleSolution> comparator = new DominanceComparator<>();
 
-    public CMOEADD(Problem<DoubleSolution> problem) {
-        super(problem);
+    public CMOEADD(MOEADDBuilder<S> builder) {
+        super(builder);
     }
 
     @Override
-    public int checkDominance(DoubleSolution a, DoubleSolution b) {
-        return comparator.compare(a, b);
+    public int checkDominance(Solution a, Solution b) {
+        return comparator.compare((DoubleSolution) a, (DoubleSolution) b);
     }
 
 }
