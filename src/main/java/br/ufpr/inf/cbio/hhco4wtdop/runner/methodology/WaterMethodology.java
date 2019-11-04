@@ -35,7 +35,9 @@ public class WaterMethodology implements Methodology {
     public WaterMethodology() {
         this.populationSize = 210;
         // 1000 generations
-        this.maxFitnessEvaluations = 1000 * populationSize;
+        // this.maxFitnessEvaluations = 1000 * populationSize;
+        // 10000 FE
+        this.maxFitnessEvaluations = 10000;
     }
 
     @Override

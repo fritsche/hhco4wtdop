@@ -23,6 +23,8 @@ import br.ufpr.inf.cbio.hhco.config.AlgorithmConfiguration;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEADD.CMOEADD;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEADSBX.CMOEADSBX;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEADSBX.CMOEADSBXConfiguration;
+import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOMBI2.CMOMBI2;
+import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOMBI2.CMOMBI2Configuration;
 
 /**
  *
@@ -38,6 +40,8 @@ public class AlgorithmConfigurationFactory extends br.ufpr.inf.cbio.hhco.config.
             return new CMOEADSBXConfiguration();
         } else if (algorithm.equals(CMOEADD.class.getSimpleName())) {
             return new CMOEADDConfiguration();
+        } else if (algorithm.equals(CMOMBI2.class.getSimpleName())) {
+            return new CMOMBI2Configuration();
         } else {
             return super.getAlgorithmConfiguration(algorithm);
         }

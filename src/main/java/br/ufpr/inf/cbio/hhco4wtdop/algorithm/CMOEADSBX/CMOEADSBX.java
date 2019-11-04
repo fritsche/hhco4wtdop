@@ -16,7 +16,7 @@
  */
 package br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEADSBX;
 
-import br.ufpr.inf.cbio.hhco4wtdop.comparator.ConstraintAndFitnessComparator;
+import br.ufpr.inf.cbio.hhco4wtdop.util.ConstraintAndFitnessComparator;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
