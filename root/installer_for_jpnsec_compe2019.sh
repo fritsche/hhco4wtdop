@@ -143,7 +143,7 @@ cd dummies
 python setup.py install
 cd ../
 
-cd PostToolForECSympoCompe_20191014
+cd PostToolForECSympoCompe
 mkdir -p ReleaseLinux
 make
 cd ../
