@@ -12,18 +12,7 @@ cd root
 cd ../
 ```
 
-
-## To clone this repo 
-
-### Without results folder
-```bash
-git clone git@github.com:fritsche/hhco4wtdop.git
-```
-### Including results folder
-```bash
-git clone --recurse-submodules git@github.com:fritsche/hhco4wtdop.git
-```
-### Install Dependencies
+### Install other dependencies
 ```bash
 sudo apt install at python-pip virtualenv maven
 ```

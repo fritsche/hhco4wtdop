@@ -27,6 +27,7 @@ jar=target/HHCO4WTDOP-1.0-SNAPSHOT-jar-with-dependencies.jar
 main=br.ufpr.inf.cbio.hhco4wtdop.runner.Main
 javacommand="java -Duser.language=en -cp $jar -Xmx1g $main"
 
+nohup ./root/scripts/backup.sh ~/hhco4wtdop/root/experiment/ /proj/ch-geni-net/ggarciab/backup/hhco4wtdop-results/experiment &
 
 for algorithm in "${algorithms[@]}"; do
     seed_index=0
