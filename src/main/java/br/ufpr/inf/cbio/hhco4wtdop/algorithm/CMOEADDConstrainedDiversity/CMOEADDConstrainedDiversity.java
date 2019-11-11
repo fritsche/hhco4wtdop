@@ -470,7 +470,10 @@ public class CMOEADDConstrainedDiversity<S extends Solution<?>> implements Algor
 
             if (frontSize == 1 && lastFront.get(0).equals(indiv)) {	// the last non-domination level only has 'indiv'
                 int curNC = countOnes(location);
-                if (curNC > 0) {	// if the subregion of 'indiv' has other solution, drop 'indiv'
+                // if the subregion of 'indiv' has other solution, 
+                // or indiv is not feasible,
+                // drop 'indiv'
+                if (curNC > 0 || (constraintViolation.getAttribute((DoubleSolution) indiv) < 0)) {
                     nondominated_sorting_delete(indiv);
                 } else {	// if the subregion of 'indiv' has no solution, keep 'indiv'
                     deleteCrowdRegion1(indiv, location);
@@ -483,7 +486,10 @@ public class CMOEADDConstrainedDiversity<S extends Solution<?>> implements Algor
                     curNC++;
                 }
 
-                if (curNC == 1) {	// the subregion only has the solution 'targetIdx', keep solution 'targetIdx'
+                // the subregion only has the solution 'targetIdx',
+                // and 'targetIdx' is feasible 
+                // keep solution 'targetIdx'
+                if (curNC == 1 && (constraintViolation.getAttribute((DoubleSolution) lastFront.get(0)) >= 0)) {
                     deleteCrowdRegion2(indiv, location);
                 } else {	// the subregion contains some other solutions, drop solution 'targetIdx'
                     int indivRank = (int) indiv.getAttribute(dominanceRankingAttributeIdentifier);
@@ -1423,11 +1429,7 @@ public class CMOEADDConstrainedDiversity<S extends Solution<?>> implements Algor
         int count = 0;
         for (int i = 0; i < populationSize_; i++) {
             if (subregionIdx_[location][i] == 1) {
-                if (constraintViolation.getAttribute((DoubleSolution) population_.get(i)) < 0) {
-                    count += populationSize_;
-                } else {
-                    count++;
-                }
+                count++;
             }
         }
 
@@ -1662,17 +1664,6 @@ public class CMOEADDConstrainedDiversity<S extends Solution<?>> implements Algor
                         + functionType_);
                 System.exit(-1);
         }
-
-//        double constraint = constraintViolation.getAttribute((DoubleSolution) indiv);
-//        if (constraint < 0) {
-//            double theta; // penalty parameter
-//            theta = 5.0;
-//            double d = (new EuclideanDistance()).compute(new ArrayPoint(zp_), new ArrayPoint(nzp_));
-//            // worse possible PBI
-//            fitness = d + theta * d;
-//            fitness += Math.abs(constraint);
-//        }
-
         return fitness;
     }
 
