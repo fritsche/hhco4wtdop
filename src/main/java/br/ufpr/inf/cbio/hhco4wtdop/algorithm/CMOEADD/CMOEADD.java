@@ -138,9 +138,6 @@ public class CMOEADD<S extends Solution<?>> implements Algorithm<List<S>> {
         for (int i = 0; i < populationSize_; i++) {
             curRank = (int) population_.get(i).getAttribute(dominanceRankingAttributeIdentifier);
             rankIdx_[curRank][i] = 1;
-            setLocation(population_.get(i), zp_, nzp_);
-            int location = (int) population_.get(i).getAttribute(MOEADD_ATTRIBUTES.Region);
-            subregionIdx_[location][i] = 1;
         }
 
         // main procedure
@@ -269,7 +266,7 @@ public class CMOEADD<S extends Solution<?>> implements Algorithm<List<S>> {
             problem_.evaluate(newSolution);
             evaluations_++;
             population_.add(newSolution);
-            //        subregionIdx_[i][i] = 1;
+            subregionIdx_[i][i] = 1;
         }
     } // initPopulation
 
@@ -470,7 +467,10 @@ public class CMOEADD<S extends Solution<?>> implements Algorithm<List<S>> {
 
             if (frontSize == 1 && lastFront.get(0).equals(indiv)) {	// the last non-domination level only has 'indiv'
                 int curNC = countOnes(location);
-                if (curNC > 0) {	// if the subregion of 'indiv' has other solution, drop 'indiv'
+                // if the subregion of 'indiv' has other solution, 
+                // or indiv is not feasible,
+                // drop 'indiv'
+                if (curNC > 0 || (constraintViolation.getAttribute((DoubleSolution) indiv) < 0)) {
                     nondominated_sorting_delete(indiv);
                 } else {	// if the subregion of 'indiv' has no solution, keep 'indiv'
                     deleteCrowdRegion1(indiv, location);
@@ -483,7 +483,10 @@ public class CMOEADD<S extends Solution<?>> implements Algorithm<List<S>> {
                     curNC++;
                 }
 
-                if (curNC == 1) {	// the subregion only has the solution 'targetIdx', keep solution 'targetIdx'
+                // the subregion only has the solution 'targetIdx',
+                // and 'targetIdx' is feasible 
+                // keep solution 'targetIdx'
+                if (curNC == 1 && (constraintViolation.getAttribute((DoubleSolution) lastFront.get(0)) >= 0)) {
                     deleteCrowdRegion2(indiv, location);
                 } else {	// the subregion contains some other solutions, drop solution 'targetIdx'
                     int indivRank = (int) indiv.getAttribute(dominanceRankingAttributeIdentifier);
@@ -502,7 +505,6 @@ public class CMOEADD<S extends Solution<?>> implements Algorithm<List<S>> {
                 }
             } else {
                 double indivFitness = fitnessFunction(indiv, lambda_[location]);
-                double indivConstraints = constraintViolation.getAttribute((DoubleSolution) indiv);
 
                 // find the index of the solution in the last non-domination level, and its corresponding subregion
                 int[] idxArray = new int[frontSize];
@@ -580,31 +582,23 @@ public class CMOEADD<S extends Solution<?>> implements Algorithm<List<S>> {
                         if (list.isEmpty()) {
                             System.out.println("Cannot happen!!!");
                         } else {
-                            double maxFitness, curFitness, maxFitnessConstraint, curFitnessConstraint;
+                            double maxFitness, curFitness;
                             int targetIdx = list.get(0);
                             if (idxArray[targetIdx] == -1) {
                                 maxFitness = indivFitness;
-                                maxFitnessConstraint = indivConstraints;
                             } else {
                                 maxFitness = fitnessFunction(population_.get(idxArray[targetIdx]), lambda_[crowdIdx]);
-                                maxFitnessConstraint = constraintViolation.getAttribute((DoubleSolution) population_.get(idxArray[targetIdx]));
                             }
                             for (int i = 1; i < list.size(); i++) {
                                 int curIdx = list.get(i);
                                 if (idxArray[curIdx] == -1) {
                                     curFitness = indivFitness;
-                                    curFitnessConstraint = indivConstraints;
                                 } else {
                                     curFitness = fitnessFunction(population_.get(idxArray[curIdx]), lambda_[crowdIdx]);
-                                    curFitnessConstraint = constraintViolation.getAttribute((DoubleSolution) population_.get(idxArray[curIdx]));
                                 }
-
-                                if ((curFitnessConstraint < maxFitnessConstraint)
-                                        || ((curFitnessConstraint == maxFitnessConstraint)
-                                        && (curFitness > maxFitness))) {
+                                if (curFitness > maxFitness) {
                                     targetIdx = curIdx;
                                     maxFitness = curFitness;
-                                    maxFitnessConstraint = curFitnessConstraint;
                                 }
                             }
                             if (idxArray[targetIdx] == -1) {
@@ -1064,17 +1058,12 @@ public class CMOEADD<S extends Solution<?>> implements Algorithm<List<S>> {
         int rankSize = maxRankList.size();
         int targetIdx = maxRankList.get(0);
         double maxFitness = fitnessFunction(population_.get(targetIdx), lambda_[crowdIdx]);
-        double maxFitnessConstraint = constraintViolation.getAttribute((DoubleSolution) population_.get(targetIdx));
         for (int i = 1; i < rankSize; i++) {
             int curIdx = maxRankList.get(i);
             double curFitness = fitnessFunction(population_.get(curIdx), lambda_[crowdIdx]);
-            double curFitnessConstraint = constraintViolation.getAttribute((DoubleSolution) population_.get(curIdx));
-            if ((curFitnessConstraint < maxFitnessConstraint)
-                    || ((curFitnessConstraint == maxFitnessConstraint)
-                    && (curFitness > maxFitness))) {
+            if (curFitness > maxFitness) {
                 targetIdx = curIdx;
                 maxFitness = curFitness;
-                maxFitnessConstraint = curFitnessConstraint;
             }
         }
 
@@ -1183,32 +1172,26 @@ public class CMOEADD<S extends Solution<?>> implements Algorithm<List<S>> {
             }
         }
 
-        double maxFitness, maxFitnessConstraint;
+        double maxFitness;
         int rankSize = maxRankList.size();
         int targetIdx = maxRankList.get(0);
         if (targetIdx == -1) {
             maxFitness = indivFitness;
-            maxFitnessConstraint = constraintViolation.getAttribute((DoubleSolution) indiv);
         } else {
             maxFitness = fitnessFunction(population_.get(targetIdx), lambda_[crowdIdx]);
-            maxFitnessConstraint = constraintViolation.getAttribute((DoubleSolution) population_.get(targetIdx));
         }
         for (int i = 1; i < rankSize; i++) {
-            double curFitness, curFitnessConstraint;
+            double curFitness;
             int curIdx = maxRankList.get(i);
             if (curIdx == -1) {
                 curFitness = indivFitness;
-                curFitnessConstraint = constraintViolation.getAttribute((DoubleSolution) indiv);
             } else {
                 curFitness = fitnessFunction(population_.get(curIdx), lambda_[crowdIdx]);
-                curFitnessConstraint = constraintViolation.getAttribute((DoubleSolution) population_.get(curIdx));
             }
-            if ((curFitnessConstraint < maxFitnessConstraint)
-                    || ((curFitnessConstraint == maxFitnessConstraint)
-                    && (curFitness > maxFitness))) {
+
+            if (curFitness > maxFitness) {
                 targetIdx = curIdx;
                 maxFitness = curFitness;
-                maxFitnessConstraint = curFitnessConstraint;
             }
         }
 
@@ -1246,7 +1229,6 @@ public class CMOEADD<S extends Solution<?>> implements Algorithm<List<S>> {
     public void deleteRankOne(S indiv, int location) {
 
         double indivFitness = fitnessFunction(indiv, lambda_[location]);
-        double indivConstraint = constraintViolation.getAttribute((DoubleSolution) indiv);
 
         // find the most crowded subregion, if there are more than one, keep them in crowdList
         List<Integer> crowdList = new ArrayList<>();
@@ -1305,9 +1287,7 @@ public class CMOEADD<S extends Solution<?>> implements Algorithm<List<S>> {
                     }
                 }
                 double prev_func = fitnessFunction(population_.get(targetIdx), lambda_[location]);
-                double prev_const = constraintViolation.getAttribute((DoubleSolution) population_.get(targetIdx));
-                if ((indivConstraint > prev_const)
-                        || ((prev_const == indivConstraint) && (indivFitness < prev_func))) {
+                if (indivFitness < prev_func) {
                     population_.set(targetIdx, indiv);
                 }
                 break;
@@ -1370,8 +1350,6 @@ public class CMOEADD<S extends Solution<?>> implements Algorithm<List<S>> {
      */
     public void deleteCrowdIndiv_same(int crowdIdx, int nicheCount, double indivFitness, S indiv) {
 
-        double indivConstraint = constraintViolation.getAttribute((DoubleSolution) indiv);
-
         // find the solution indices within this crowdIdx subregion
         List<Integer> indList = new ArrayList<>();
         for (int i = 0; i < populationSize_; i++) {
@@ -1384,21 +1362,17 @@ public class CMOEADD<S extends Solution<?>> implements Algorithm<List<S>> {
         int listSize = indList.size();
         int worstIdx = indList.get(0);
         double maxFitness = fitnessFunction(population_.get(worstIdx), lambda_[crowdIdx]);
-        double maxFitnessConstraint = constraintViolation.getAttribute((DoubleSolution) population_.get(worstIdx));
         for (int i = 1; i < listSize; i++) {
             int curIdx = indList.get(i);
             double curFitness = fitnessFunction(population_.get(curIdx), lambda_[crowdIdx]);
-            double curFitnessConstraint = constraintViolation.getAttribute((DoubleSolution) population_.get(curIdx));
-            if ((curFitnessConstraint < maxFitnessConstraint)
-                    || ((curFitnessConstraint == maxFitnessConstraint) && (curFitness > maxFitness))) {
+            if (curFitness > maxFitness) {
                 worstIdx = curIdx;
                 maxFitness = curFitness;
-                maxFitnessConstraint = curFitnessConstraint;
             }
         }
 
         // if indiv has a better fitness, use indiv to replace the worst one
-        if ((indivConstraint > maxFitnessConstraint) || ((indivConstraint == maxFitnessConstraint) && (indivFitness < maxFitness))) {
+        if (indivFitness < maxFitness) {
             population_.set(worstIdx, indiv);
         }
     }
@@ -1425,16 +1399,12 @@ public class CMOEADD<S extends Solution<?>> implements Algorithm<List<S>> {
         // find the solution with the worst fitness value
         int worstIdx = indList.get(0);
         double maxFitness = fitnessFunction(population_.get(worstIdx), lambda_[crowdIdx]);
-        double maxFitnessConstraint = constraintViolation.getAttribute((DoubleSolution) population_.get(worstIdx));
         for (int i = 1; i < nicheCount; i++) {
             int curIdx = indList.get(i);
             double curFitness = fitnessFunction(population_.get(curIdx), lambda_[crowdIdx]);
-            double curFitnessConstraint = constraintViolation.getAttribute((DoubleSolution) population_.get(curIdx));
-            if ((curFitnessConstraint < maxFitnessConstraint)
-                    || ((curFitnessConstraint == maxFitnessConstraint) && (curFitness > maxFitness))) {
+            if (curFitness > maxFitness) {
                 worstIdx = curIdx;
                 maxFitness = curFitness;
-                maxFitnessConstraint = curFitnessConstraint;
             }
         }
 
@@ -1541,14 +1511,6 @@ public class CMOEADD<S extends Solution<?>> implements Algorithm<List<S>> {
 
     }
 
-    /**
-     * check the dominance relationship between a and b: 1 -> a dominates b, -1
-     * -> b dominates a 0 -> non-dominated with each other
-     *
-     * @param a
-     * @param b
-     * @return
-     */
     public int checkDominance(Solution a, Solution b) {
         return comparator.compare((DoubleSolution) a, (DoubleSolution) b) * -1;
     }
@@ -1672,42 +1634,6 @@ public class CMOEADD<S extends Solution<?>> implements Algorithm<List<S>> {
         double fitness = 0;
 
         switch (functionType_) {
-            case "_TCHE1": {
-                double maxFun = -1.0e+30;
-                for (int n = 0; n < problem_.getNumberOfObjectives(); n++) {
-                    double diff = Math.abs(indiv.getObjective(n) - zp_[n]);
-
-                    double feval;
-                    if (lambda[n] == 0) {
-                        feval = 0.0001 * diff;
-                    } else {
-                        feval = diff * lambda[n];
-                    }
-                    if (feval > maxFun) {
-                        maxFun = feval;
-                    }
-                } // for
-                fitness = maxFun;
-                break;
-            }
-            case "_TCHE2": {
-                double maxFun = -1.0e+30;
-                for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
-                    double diff = Math.abs(indiv.getObjective(i) - zp_[i]);
-
-                    double feval;
-                    if (lambda[i] == 0) {
-                        feval = diff / 0.000001;
-                    } else {
-                        feval = diff / lambda[i];
-                    }
-                    if (feval > maxFun) {
-                        maxFun = feval;
-                    }
-                } // for
-                fitness = maxFun;
-                break;
-            }
             case "_PBI":
                 double theta; // penalty parameter
                 theta = 5.0;
@@ -1736,5 +1662,6 @@ public class CMOEADD<S extends Solution<?>> implements Algorithm<List<S>> {
                 System.exit(-1);
         }
         return fitness;
-    } // fitnessEvaluation
+    }
+
 }

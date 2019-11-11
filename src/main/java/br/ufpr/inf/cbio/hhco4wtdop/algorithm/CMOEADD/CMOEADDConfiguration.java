@@ -16,6 +16,7 @@
  */
 package br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEADD;
 
+import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEADD.*;
 import br.ufpr.inf.cbio.hhco.config.AlgorithmConfiguration;
 import org.uma.jmetal.operator.CrossoverOperator;
 import org.uma.jmetal.operator.MutationOperator;
