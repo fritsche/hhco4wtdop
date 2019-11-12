@@ -36,7 +36,8 @@ for algorithm in "${algorithms[@]}"; do
         seed=${seeds[$seed_index]}
         # different algorithms on the same problem instance uses the same seed
         output="$dir/root/experiment/$host/"
-        file="$output/FUN$id.tsv"
+#        file="$output/FUN$id.tsv"
+        file=$algorithm.$seed.log
         if [ ! -s $file ] || [ "$replace" = true ]; then
             params="-s $seed -id $id -P $output -a $algorithm -p $problem"
             $execute "$javacommand $params 2> $algorithm.$seed.log"
