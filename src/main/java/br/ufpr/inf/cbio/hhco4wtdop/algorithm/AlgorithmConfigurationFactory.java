@@ -19,7 +19,9 @@ package br.ufpr.inf.cbio.hhco4wtdop.algorithm;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEAD.CMOEADConfiguration;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEAD.CMOEAD;
 import br.ufpr.inf.cbio.hhco.config.AlgorithmConfiguration;
+import br.ufpr.inf.cbio.hhco.hyperheuristic.HHCORandom.HHCORandomConfiguration;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CHHCO.CHHCOConfiguration;
+import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CHHCO.CHHCORandomConfiguration;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEADD.CMOEADD;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEADD.CMOEADDConfiguration;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEADSBX.CMOEADSBX;
@@ -49,6 +51,8 @@ public class AlgorithmConfigurationFactory extends br.ufpr.inf.cbio.hhco.config.
             return new ConstraintMOEADConfiguration();
         } else if (algorithm.equals("CHHCO")) {
             return new CHHCOConfiguration();
+        } else if (algorithm.equals("CHHCORandom")) {
+            return new CHHCORandomConfiguration();
         } else {
             return super.getAlgorithmConfiguration(algorithm);
         }
