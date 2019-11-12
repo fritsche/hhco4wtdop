@@ -33,7 +33,7 @@ import org.uma.jmetal.util.solutionattribute.impl.Fitness;
  */
 public class CMOEAD extends MOEAD {
 
-    Comparator<DoubleSolution> comparator;
+    private Comparator<DoubleSolution> comparator;
 
     public CMOEAD(Comparator<DoubleSolution> comparator, Problem<DoubleSolution> problem, int populationSize, int resultPopulationSize, int maxEvaluations, MutationOperator<DoubleSolution> mutation, CrossoverOperator<DoubleSolution> crossover, FunctionType functionType, String dataDirectory, double neighborhoodSelectionProbability, int maximumNumberOfReplacedSolutions, int neighborSize) {
         super(problem, populationSize, resultPopulationSize, maxEvaluations, mutation, crossover, functionType, dataDirectory, neighborhoodSelectionProbability, maximumNumberOfReplacedSolutions, neighborSize);
