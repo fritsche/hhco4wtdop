@@ -153,7 +153,7 @@ public class Main {
         }
         int populationSize = methodology.getPopulationSize();
         int maxEvaluations = methodology.getMaxFitnessEvaluations();
-        AlgorithmConfigurationFactory configurationFactory = new AlgorithmConfigurationFactory();
+        AlgorithmConfigurationFactory configurationFactory = new AlgorithmConfigurationFactory(experimentBaseDirectory + "/" + algorithmName, id);
         return configurationFactory.getAlgorithmConfiguration(algorithmName).configure(populationSize, maxEvaluations, problem);
     }
 

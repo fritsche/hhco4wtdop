@@ -17,9 +17,6 @@
 package br.ufpr.inf.cbio.hhco4wtdop.algorithm.CHHCO;
 
 import br.ufpr.inf.cbio.hhco.algorithm.HypE.COHypEConfiguration;
-import br.ufpr.inf.cbio.hhco.algorithm.MOEAD.COMOEADConfiguration;
-import br.ufpr.inf.cbio.hhco.algorithm.MOEADD.COMOEADDConfiguration;
-import br.ufpr.inf.cbio.hhco.algorithm.MOMBI2.COMOMBI2Configuration;
 import br.ufpr.inf.cbio.hhco.algorithm.NSGAII.CONSGAIIConfiguration;
 import br.ufpr.inf.cbio.hhco.algorithm.NSGAIII.CONSGAIIIConfiguration;
 import br.ufpr.inf.cbio.hhco.algorithm.SPEA2.COSPEA2Configuration;
@@ -29,6 +26,7 @@ import br.ufpr.inf.cbio.hhco.config.AlgorithmConfiguration;
 import br.ufpr.inf.cbio.hhco.hyperheuristic.CooperativeAlgorithm;
 import br.ufpr.inf.cbio.hhco.hyperheuristic.HHCO.HHCO;
 import br.ufpr.inf.cbio.hhco.hyperheuristic.HHCO.HHCOBuilder;
+import br.ufpr.inf.cbio.hhco.hyperheuristic.HHCO.observer.SelectedMOEALogger;
 import br.ufpr.inf.cbio.hhco.hyperheuristic.selection.ArgMaxSelection;
 import br.ufpr.inf.cbio.hhco.hyperheuristic.selection.SelectionFunction;
 import br.ufpr.inf.cbio.hhco.metrics.fir.FitnessImprovementRateCalculator;
@@ -50,9 +48,12 @@ public class CHHCOConfiguration<S extends Solution> implements AlgorithmConfigur
     protected FitnessImprovementRateCalculator fir;
     protected Problem problem;
     protected int popSize;
+    private final String experimentBaseDirectory;
+    private final int id;
 
-    public CHHCOConfiguration() {
-
+    public CHHCOConfiguration(String experimentBaseDirectory, int id) {
+        this.experimentBaseDirectory = experimentBaseDirectory;
+        this.id = id;
     }
 
     @Override
@@ -82,9 +83,14 @@ public class CHHCOConfiguration<S extends Solution> implements AlgorithmConfigur
                 .addAlgorithm(new COSPEA2SDEConfiguration().configure(popSize, maxFitnessEvaluations, problem))
                 .addAlgorithm(new COHypEConfiguration().configure(popSize, maxFitnessEvaluations, problem));
 
-        return builder.setName("CHHCO")
+        HHCO hhco = builder.setName("CHHCO")
                 .setSelection(selection).setFir(fir)
                 .setMaxEvaluations(maxFitnessEvaluations).setPopulationSize(popSize).build();
+
+        String outputfolder = experimentBaseDirectory + "/output/";
+        hhco.addObserver(new SelectedMOEALogger(outputfolder, "selected." + id + ".txt"));
+
+        return hhco;
     }
 
 }

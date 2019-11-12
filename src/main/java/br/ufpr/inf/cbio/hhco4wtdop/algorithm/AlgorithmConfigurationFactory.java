@@ -19,7 +19,6 @@ package br.ufpr.inf.cbio.hhco4wtdop.algorithm;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEAD.CMOEADConfiguration;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEAD.CMOEAD;
 import br.ufpr.inf.cbio.hhco.config.AlgorithmConfiguration;
-import br.ufpr.inf.cbio.hhco.hyperheuristic.HHCORandom.HHCORandomConfiguration;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CHHCO.CHHCOConfiguration;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CHHCO.CHHCORandomConfiguration;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEADD.CMOEADD;
@@ -37,6 +36,14 @@ import org.uma.jmetal.algorithm.multiobjective.moead.MOEADBuilder;
  */
 public class AlgorithmConfigurationFactory extends br.ufpr.inf.cbio.hhco.config.AlgorithmConfigurationFactory {
 
+    private final String experimentBaseDirectory;
+    private final int id;
+
+    public AlgorithmConfigurationFactory(String experimentBaseDirectory, int id) {
+        this.experimentBaseDirectory = experimentBaseDirectory;
+        this.id = id;
+    }
+
     @Override
     public AlgorithmConfiguration getAlgorithmConfiguration(String algorithm) {
         if (algorithm.equals(CMOEAD.class.getSimpleName())) {
@@ -50,9 +57,9 @@ public class AlgorithmConfigurationFactory extends br.ufpr.inf.cbio.hhco.config.
         } else if (algorithm.equals(MOEADBuilder.Variant.ConstraintMOEAD.name())) {
             return new ConstraintMOEADConfiguration();
         } else if (algorithm.equals("CHHCO")) {
-            return new CHHCOConfiguration();
+            return new CHHCOConfiguration(experimentBaseDirectory, id);
         } else if (algorithm.equals("CHHCORandom")) {
-            return new CHHCORandomConfiguration();
+            return new CHHCORandomConfiguration(experimentBaseDirectory, id);
         } else {
             return super.getAlgorithmConfiguration(algorithm);
         }
