@@ -467,10 +467,8 @@ public class CMOEADD<S extends Solution<?>> implements Algorithm<List<S>> {
 
             if (frontSize == 1 && lastFront.get(0).equals(indiv)) {	// the last non-domination level only has 'indiv'
                 int curNC = countOnes(location);
-                // if the subregion of 'indiv' has other solution, 
-                // or indiv is not feasible,
-                // drop 'indiv'
-                if (curNC > 0 || (constraintViolation.getAttribute((DoubleSolution) indiv) < 0)) {
+                // if the subregion of 'indiv' has other solution, drop 'indiv'
+                if (curNC > 0) {
                     nondominated_sorting_delete(indiv);
                 } else {	// if the subregion of 'indiv' has no solution, keep 'indiv'
                     deleteCrowdRegion1(indiv, location);
@@ -483,10 +481,8 @@ public class CMOEADD<S extends Solution<?>> implements Algorithm<List<S>> {
                     curNC++;
                 }
 
-                // the subregion only has the solution 'targetIdx',
-                // and 'targetIdx' is feasible 
-                // keep solution 'targetIdx'
-                if (curNC == 1 && (constraintViolation.getAttribute((DoubleSolution) lastFront.get(0)) >= 0)) {
+                // the subregion only has the solution 'targetIdx', keep solution 'targetIdx'
+                if (curNC == 1) {
                     deleteCrowdRegion2(indiv, location);
                 } else {	// the subregion contains some other solutions, drop solution 'targetIdx'
                     int indivRank = (int) indiv.getAttribute(dominanceRankingAttributeIdentifier);

@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.StringJoiner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.uma.jmetal.problem.ConstrainedProblem;
 import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
 import org.uma.jmetal.solution.DoubleSolution;
 import org.uma.jmetal.util.JMetalException;
@@ -107,8 +106,8 @@ public class WindTurbineDesign extends AbstractDoubleProblem {
                         }
                     }
 
-//                    Logger.getLogger(WindTurbineDesign.class.getName()).log(Level.INFO, "{0}: {1}\t{2}",
-//                            new Object[]{fecount - 1, Arrays.toString(solution.getObjectives()), overallConstraintViolation});
+                    Logger.getLogger(WindTurbineDesign.class.getName()).log(Level.INFO, "{0}: {1}\t{2}",
+                            new Object[]{fecount - 1, Arrays.toString(solution.getObjectives()), overallConstraintViolation});
 
                     overallConstraintViolationDegree.setAttribute(solution, overallConstraintViolation);
                     numberOfViolatedConstraints.setAttribute(solution, violatedConstraints);
