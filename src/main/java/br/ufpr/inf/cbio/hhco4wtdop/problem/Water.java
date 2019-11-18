@@ -42,7 +42,7 @@ public class Water extends org.uma.jmetal.problem.multiobjective.Water {
         }
         evaluationsCount++;
 
-        Logger.getLogger(WindTurbineDesign.class.getName()).log(Level.INFO, "{0}: {1}, {2}, {3}%",
+        Logger.getLogger(Water.class.getName()).log(Level.INFO, "{0}: {1}, {2}, {3}%",
                 new Object[]{evaluationsCount, violatedConstraints, feasibleCount, feasibleCount / (double) evaluationsCount * 100});
 
     }
