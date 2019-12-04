@@ -16,8 +16,8 @@
  */
 package br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEADD;
 
-import org.uma.jmetal.operator.CrossoverOperator;
-import org.uma.jmetal.operator.MutationOperator;
+import br.ufpr.inf.cbio.hhco.algorithm.MOEADD.MOEADD;
+import br.ufpr.inf.cbio.hhco.algorithm.MOEADD.MOEADDBuilder;
 import org.uma.jmetal.problem.Problem;
 import org.uma.jmetal.solution.Solution;
 import org.uma.jmetal.util.AlgorithmBuilder;
@@ -27,61 +27,16 @@ import org.uma.jmetal.util.AlgorithmBuilder;
  * @author Gian Fritsche <gmfritsche at inf.ufpr.br>
  * @param <S>
  */
-public class CMOEADDBuilder<S extends Solution<?>> implements AlgorithmBuilder<CMOEADD<S>> {
-
-    private final Problem<S> problem;
-    private CrossoverOperator crossover;
-    private MutationOperator mutation;
-    private int populationSize;
-    private int maxEvaluations;
+public class CMOEADDBuilder<S extends Solution<?>> extends MOEADDBuilder<S> implements AlgorithmBuilder<MOEADD<S>> {
 
     public CMOEADDBuilder(Problem<S> problem) {
-        this.problem = problem;
+        super(problem);
     }
 
     @Override
     public CMOEADD<S> build() {
         return new CMOEADD(this);
     }
-
-    public Problem getProblem() {
-        return this.problem;
-    }
-
-    public CrossoverOperator getCrossover() {
-        return crossover;
-    }
-
-    public CMOEADDBuilder setCrossover(CrossoverOperator crossover) {
-        this.crossover = crossover;
-        return this;
-    }
-
-    public MutationOperator getMutation() {
-        return mutation;
-    }
-
-    public CMOEADDBuilder setMutation(MutationOperator mutation) {
-        this.mutation = mutation;
-        return this;
-    }
-
-    public int getPopulationSize() {
-        return populationSize;
-    }
-
-    public CMOEADDBuilder setPopulationSize(int populationSize) {
-        this.populationSize = populationSize;
-        return this;
-    }
-
-    public int getMaxEvaluations() {
-        return maxEvaluations;
-    }
-
-    public CMOEADDBuilder setMaxEvaluations(int maxEvaluations) {
-        this.maxEvaluations = maxEvaluations;
-        return this;
-    }
-
+    
+    
 }

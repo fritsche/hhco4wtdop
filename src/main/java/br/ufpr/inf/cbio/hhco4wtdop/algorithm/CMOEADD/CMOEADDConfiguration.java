@@ -16,36 +16,16 @@
  */
 package br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEADD;
 
-import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEADD.*;
-import br.ufpr.inf.cbio.hhco.config.AlgorithmConfiguration;
-import org.uma.jmetal.operator.CrossoverOperator;
-import org.uma.jmetal.operator.MutationOperator;
-import org.uma.jmetal.operator.impl.crossover.SBXCrossover;
-import org.uma.jmetal.operator.impl.mutation.PolynomialMutation;
+import br.ufpr.inf.cbio.hhco.algorithm.MOEADD.MOEADDConfiguration;
 import org.uma.jmetal.problem.Problem;
-import org.uma.jmetal.solution.DoubleSolution;
 
 /**
  *
  * @author Gian Fritsche <gmfritsche at inf.ufpr.br>
  */
-public class CMOEADDConfiguration implements AlgorithmConfiguration<CMOEADD<?>> {
+public class CMOEADDConfiguration extends MOEADDConfiguration {
 
-    protected double crossoverProbability;
-    protected double crossoverDistributionIndex;
-    protected double mutationProbability;
-    protected double mutationDistributionIndex;
-    protected Problem problem;    protected CrossoverOperator<DoubleSolution> crossover;
-    protected MutationOperator<DoubleSolution> mutation;
-
-    @Override
-    public void setup() {
-        crossoverProbability = 1.0;
-        crossoverDistributionIndex = 30.0;
-        mutationProbability = 1.0 / problem.getNumberOfVariables();
-        mutationDistributionIndex = 20.0;
-        crossover = new SBXCrossover(crossoverProbability, crossoverDistributionIndex);
-        mutation = new PolynomialMutation(mutationProbability, mutationDistributionIndex);
+    public CMOEADDConfiguration() {
     }
 
     @Override
@@ -54,7 +34,7 @@ public class CMOEADDConfiguration implements AlgorithmConfiguration<CMOEADD<?>> 
 
         setup();
 
-        return new CMOEADDBuilder(problem).setCrossover(crossover)
+        return (CMOEADD) new CMOEADDBuilder(problem).setCrossover(crossover)
                 .setMutation(mutation)
                 .setMaxEvaluations(maxFitnessEvaluations)
                 .setPopulationSize(popSize).build();
