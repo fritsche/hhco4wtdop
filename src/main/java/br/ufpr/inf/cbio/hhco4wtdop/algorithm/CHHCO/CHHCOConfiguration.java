@@ -76,7 +76,7 @@ public class CHHCOConfiguration<S extends Solution> implements AlgorithmConfigur
                 .addAlgorithm(new COSPEA2Configuration().configure(popSize, maxFitnessEvaluations, problem))
                 .addAlgorithm(new COCMOEADConfiguration().configure(popSize, maxFitnessEvaluations, problem))
                 .addAlgorithm(new CONSGAIIConfiguration().configure(popSize, maxFitnessEvaluations, problem))
-                .addAlgorithm(new COCMOEADDConfiguration().configure(popSize, maxFitnessEvaluations, problem))
+//                .addAlgorithm(new COCMOEADDConfiguration().configure(popSize, maxFitnessEvaluations, problem))
                 .addAlgorithm(new COCMOMBI2Configuration().configure(popSize, maxFitnessEvaluations, problem))
                 .addAlgorithm(new CONSGAIIIConfiguration().configure(popSize, maxFitnessEvaluations, problem))
                 .addAlgorithm(new COThetaDEAConfiguration().configure(popSize, maxFitnessEvaluations, problem))
