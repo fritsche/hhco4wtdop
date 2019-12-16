@@ -26,13 +26,12 @@ import br.ufpr.inf.cbio.hhco.config.AlgorithmConfiguration;
 import br.ufpr.inf.cbio.hhco.hyperheuristic.CooperativeAlgorithm;
 import br.ufpr.inf.cbio.hhco.hyperheuristic.HHCO.HHCO;
 import br.ufpr.inf.cbio.hhco.hyperheuristic.HHCO.HHCOBuilder;
-import br.ufpr.inf.cbio.hhco.hyperheuristic.HHCO.observer.SelectedMOEALogger;
+import br.ufpr.inf.cbio.hhco.hyperheuristic.HHCO.logger.SelectedMOEALogger;
 import br.ufpr.inf.cbio.hhco.hyperheuristic.selection.ArgMaxSelection;
 import br.ufpr.inf.cbio.hhco.hyperheuristic.selection.SelectionFunction;
 import br.ufpr.inf.cbio.hhco.metrics.fir.FitnessImprovementRateCalculator;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CHHCO.utils.R2WithConstraintsFIR;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEAD.COCMOEADConfiguration;
-import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEADD.COCMOEADDConfiguration;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOMBI2.COCMOMBI2Configuration;
 import org.uma.jmetal.problem.Problem;
 import org.uma.jmetal.solution.Solution;
@@ -88,7 +87,7 @@ public class CHHCOConfiguration<S extends Solution> implements AlgorithmConfigur
                 .setMaxEvaluations(maxFitnessEvaluations).setPopulationSize(popSize).build();
 
         String outputfolder = experimentBaseDirectory + "/output/";
-        hhco.addObserver(new SelectedMOEALogger(outputfolder, "selected." + id + ".txt"));
+        hhco.addLogger(new SelectedMOEALogger(outputfolder, "selected." + id + ".txt"));
 
         return hhco;
     }
