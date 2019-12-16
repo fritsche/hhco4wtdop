@@ -68,7 +68,7 @@ public class WindTurbineDesign extends AbstractDoubleProblem {
     public void evaluate(DoubleSolution solution) {
 
         StringJoiner command = new StringJoiner(" ");
-        command.add("bash root/eval_solution.sh")
+        command.add("bash root/eval_newsolutions.sh")
                 .add(algorithmName)
                 .add(runId)
                 .add(Integer.toString(fecount++));
