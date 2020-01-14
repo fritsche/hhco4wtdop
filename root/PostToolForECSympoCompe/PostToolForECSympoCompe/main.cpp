@@ -164,6 +164,14 @@ int main(int argc, char *argv[])
 		
 		std::cout << run  << "th run is finished." << std::endl;
 	}
+	
+	std::cout << "Hypervolumes" << std::endl;
+	gen = config.number_of_generations - 1;
+	for (run = 0; run < config.number_of_runs; run++)
+	{
+		std::cout << results_archive.archiving_hypervolume(run, gen) << std::endl;
+	}
+
 	if (return_value == -1)
 	{
 		return -1;
