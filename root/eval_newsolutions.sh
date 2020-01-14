@@ -22,7 +22,7 @@ fe=$(printf "%05d" $fe)
 vars=( "$@" )
 
 # create algorithm result folder
-folder="root/experiment/"$alg"/interface/work_"$id"th"
+folder="/proj/ch-geni-net/ggarciab/backup/hhco4wtdop-results/experiment/"$alg"/interface/work_"$id"th"
 mkdir -p $folder
 
 # create vars file
