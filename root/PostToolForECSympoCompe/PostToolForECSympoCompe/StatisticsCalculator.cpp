@@ -16,6 +16,7 @@ bool ECSC::StatisticsCalculator::calc_median(std::vector<double> v, double& med,
 	}
 	quicksort(v, indexs, 0, v.size() - 1);
 	med = v.size() % 2 ? v[v.size() / 2] : (v[(v.size() / 2) - 1] + v[v.size() / 2]) / 2;
+	index = indexs.size() % 2 ? indexs[indexs.size() / 2] : (indexs[(indexs.size() / 2) - 1] + indexs[indexs.size() / 2]) / 2;
 
 	return true;
 }
