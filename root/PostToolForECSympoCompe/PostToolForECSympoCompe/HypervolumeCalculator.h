@@ -62,7 +62,7 @@ namespace ECSC
 
 		~HypervolumeCalculator();
 
-		bool execute(SolutionSet& pareto_front, double& hv, Configuration& config);
+		bool execute(SolutionSet& pareto_front, double& hv, Configuration& config, bool skpwrr = false);
 	};
 }
 

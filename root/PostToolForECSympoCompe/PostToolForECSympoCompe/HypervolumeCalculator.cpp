@@ -597,7 +597,8 @@ ECSC::HypervolumeCalculator::~HypervolumeCalculator()
 {
 }
 
-bool ECSC::HypervolumeCalculator::execute(SolutionSet & pareto_front, double & hv, Configuration & config)
+
+bool ECSC::HypervolumeCalculator::execute(SolutionSet & pareto_front, double & hv, Configuration & config, bool skpwrr)
 {
 	Solution& ref_point = config.reference_point;
 	int& n_obj = config.number_of_objectives;
@@ -628,10 +629,11 @@ bool ECSC::HypervolumeCalculator::execute(SolutionSet & pareto_front, double & h
 			dominate_ref_point.add(pareto_front.at(i));
 		}
 	}
-	/*if (dominate_ref_point.number_of_solutions() != pareto_front.number_of_solutions())
+	if (   (dominate_ref_point.number_of_solutions() != pareto_front.number_of_solutions() )
+		&& (skpwrr == false) )
 	{
 		std::cout << "HypervolumeCalculator: Warning: Some of the Pareto solutions is not dominating the reference point." << std::endl;
-	}*/
+	}
 
 	if (dominate_ref_point.number_of_solutions() == 0)
 	{

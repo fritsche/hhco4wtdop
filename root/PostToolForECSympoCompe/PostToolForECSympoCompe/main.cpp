@@ -40,6 +40,8 @@ int main(int argc, char *argv[])
 {
 	bool skip_infeasible_remover = false;
 	bool skip_solution_normalizer = false;
+	bool is_written_all_pareto_set = false;
+	bool is_written_marge_pareto_set = false;
 	std::string config_path = "config.json";
 	int n_thread = 1;
 	for (int i = 1; i < argc; i++)
@@ -61,6 +63,14 @@ int main(int argc, char *argv[])
 		{
 			i++;
 			config_path = argv[i];
+		}
+		else if (!strcmp(argv[i], "-waps")) // write all pareto set
+		{
+			is_written_all_pareto_set = true;
+		}
+		else if (!strcmp(argv[i], "-wmps")) // write marge pareto set
+		{
+			is_written_marge_pareto_set = true;
 		}
 		else
 		{
@@ -97,7 +107,8 @@ int main(int argc, char *argv[])
 
 	std::cout << "compute hypervolumes ..." << std::endl;
 
-	double hv, hv_by_archive;
+	double hv = 0;
+	double hv_by_archive = 0;
 	int run, gen;
 	int return_value = 0;
 #ifdef _OPENMP
@@ -126,40 +137,35 @@ int main(int argc, char *argv[])
 			unbounded_archive.join(solutions);
 
 			results_archive.number_of_feasibles(run, gen) = solutions.number_of_solutions();
-
-			if (pareto_solution_selector.execute(unbounded_archive, pareto_by_archive, config) == false)
-			{
-				std::cout << "done ..." << std::endl;
-				return_value = -1;
-			}
-
-			if (gen == config.number_of_generations - 1)
-			{
-				pareto_fronts.at(run) = pareto_by_archive;
-			}
-
-			if (skip_solution_normalizer == false)
-			{
-				if (solution_normalizer.execute(pareto_by_archive, config) == false)
-				{
-					std::cout << "done ..." << std::endl;
-					return_value = -1;
-				}
-			}
-
-			if (hypervolume_calculator.execute(pareto_by_archive, hv_by_archive, config) == false)
-			{
-				std::cout << "done ..." << std::endl;
-				return_value = -1;
-			}
-
-			results_archive.archiving_hypervolume(run, gen) = hv_by_archive;
-
-			pareto_by_archive.destroy();
-			solutions.destroy();
-			pareto.destroy();
 		}
 
+		if (pareto_solution_selector.execute(unbounded_archive, pareto_by_archive, config) == false)
+		{
+			std::cout << "done ..." << std::endl;
+			return_value = -1;
+		}
+
+		pareto_fronts.at(run) = pareto_by_archive;
+
+		if (skip_solution_normalizer == false)
+		{
+			if (solution_normalizer.execute(pareto_by_archive, config) == false)
+			{
+				std::cout << "done ..." << std::endl;
+				return_value = -1;
+			}
+		}
+
+		if (hypervolume_calculator.execute(pareto_by_archive, hv_by_archive, config) == false)
+		{
+			std::cout << "done ..." << std::endl;
+			return_value = -1;
+		}
+
+		results_archive.archiving_hypervolume(run, config.number_of_generations - 1) = hv_by_archive;
+
+		pareto_by_archive.destroy();
+		solutions.destroy();
 		unbounded_archive.resize_solution_set(0);
 		
 		std::cout << run  << "th run is finished." << std::endl;
@@ -217,7 +223,14 @@ int main(int argc, char *argv[])
 				}
 			}
 
+			unbounded_archive.join(solutions);
+
 			if (pareto_solution_selector.execute(solutions, pareto, config) == false)
+			{
+				std::cout << "done ..." << std::endl;
+				return_value = -1;
+			}
+			if (pareto_solution_selector.execute(unbounded_archive, pareto_by_archive, config) == false)
 			{
 				std::cout << "done ..." << std::endl;
 				return_value = -1;
@@ -230,20 +243,32 @@ int main(int argc, char *argv[])
 					std::cout << "done ..." << std::endl;
 					return_value = -1;
 				}
+				if (solution_normalizer.execute(pareto_by_archive, config) == false)
+				{
+					std::cout << "done ..." << std::endl;
+					return_value = -1;
+				}
 			}
 
-
-			if (hypervolume_calculator.execute(pareto, hv, config) == false)
+			if (hypervolume_calculator.execute(pareto, hv, config, true) == false)
 			{
 				std::cout << "done ..." << std::endl;
 				return_value = -1;
 			}
-
 			results_archive.hypervolume(run, gen) = hv;
+			if (hypervolume_calculator.execute(pareto_by_archive, hv, config, true) == false)
+			{
+				std::cout << "done ..." << std::endl;
+				return_value = -1;
+			}
+			results_archive.archiving_hypervolume(run, gen) = hv;
 
 			solutions.destroy();
 			pareto.destroy();
+			pareto_by_archive.destroy();
 		}
+
+		unbounded_archive.resize_solution_set(0);
 
 		std::cout << run << "th run is finished." << std::endl;
 	}
@@ -254,11 +279,45 @@ int main(int argc, char *argv[])
 
 
 	ECSC::SolutionSetWriter solutions_writer;
+	
 	if (solutions_writer.execute(pareto_fronts.at(median_run), config.output_filepath_of_m2(), config) == false)
 	{
 		std::cout << "done ..." << std::endl;
 		return -1;
 	}
+	if (is_written_all_pareto_set == true)
+	{
+		for (int i = 0; i < pareto_fronts.size(); i++)
+		{
+			std::string filename = "pareto_set_" + std::to_string(i) + "th_run.csv";
+			if (solutions_writer.execute(pareto_fronts.at(i), filename, config) == false)
+			{
+				std::cout << "done ..." << std::endl;
+				return -1;
+			}
+		}
+	}
+	if (is_written_marge_pareto_set == true)
+	{
+		ECSC::SolutionSet marge_ss;
+		for (int i = 0; i < pareto_fronts.size(); i++)
+		{
+			marge_ss.join(pareto_fronts.at(i));
+		}
+		ECSC::SolutionSet marge_ps;
+		if (pareto_solution_selector.execute(marge_ss, marge_ps, config) == false)
+		{
+			std::cout << "done ..." << std::endl;
+			return_value = -1;
+		}
+		std::string filename = "marge_pareto_set.csv";
+		if (solutions_writer.execute(marge_ps, filename, config) == false)
+		{
+			std::cout << "done ..." << std::endl;
+			return -1;
+		}
+	}
+	
 
 	ECSC::ResultsWriter results_writer;
 	if (results_writer.execute(results_archive, median_run, config.output_filepath_of_m3(), config) == false)

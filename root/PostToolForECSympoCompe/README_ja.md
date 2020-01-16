@@ -21,8 +21,7 @@
 - -skp-sn : 解の正規化作業をスキップします。
 
 ## 設定ファイル
-- R言語による処理ツールpost_windturbine_rev01.r [H. Fukumoto, T. Kohira, and T. Tatsukawa 2019]と同様の仕様です。
-- 詳しくは"config.json"ファイルを御覧ください。
+- R言語による処理ツールpost_windturbine_rev01.r [H. Fukumoto, T. Kohira, and T. Tatsukawa 2019]と同様の仕様です。詳しくは"config.json"ファイルを御覧ください。
 - 設定例:
     - config.json
 	    - "group name" : "who",
@@ -44,3 +43,5 @@
 	    - ./interface/work_000th/gen0001_pop_vars_eval.txt
 	    - ./interface/work_002th/gen0000_pop_vars_eval.txt
 	    - ./interface/work_002th/gen0001_pop_vars_eval.txt
+	- max point, min pointを変更することで、目的関数空間正規化のための最大値最小値を変更することができます
+	- reference pointを変更することで、hypervolume計算時の参照点を変更することができます(参照点は正規化した目的関数空間に対応します)

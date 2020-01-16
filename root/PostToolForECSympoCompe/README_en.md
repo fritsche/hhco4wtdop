@@ -15,14 +15,12 @@
 
 ## Commandline options
 - -n {number of threads} : Set the number of threads.
-- -skp-ir : 実行不可能解を除去する作業をスキップします。
 - -cf {filepath of configration file} : Set the path of the configuration file (config.json). The default is "config.json"
 - -skp-ir : Skip the processing of removing the infeasible solution.
 - -skp-sn : Skip solution normalization.
 
 ## Configuration file
-- This code is the same specification as the processing tool by R language "post_windturbine_rev01.r". [H. Fukumoto, T. Kohira, and T. Tatsukawa 2019]
-- See the file "config.json"
+- This code is the same specification as the processing tool by R language "post_windturbine_rev01.r" [H. Fukumoto, T. Kohira, and T. Tatsukawa 2019]. See the file "config.json".
 - Example:
     - In config.json
 	    - "group name" : "who",

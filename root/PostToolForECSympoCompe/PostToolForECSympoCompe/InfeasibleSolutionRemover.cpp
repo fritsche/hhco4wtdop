@@ -15,7 +15,7 @@ bool ECSC::InfeasibleSolutionRemover::execute(SolutionSet & solutions, Configura
 	{
 		for (int j = 0; j < n_con; j++)
 		{
-			if (solutions.at(i).constraint(j) < 0.0)
+			if (solutions.at(i).constraint(j) <= 0.0)
 			{
 				solutions.remove(i);
 				i--;
