@@ -164,18 +164,12 @@ int main(int argc, char *argv[])
 
 		results_archive.archiving_hypervolume(run, config.number_of_generations - 1) = hv_by_archive;
 
+
 		pareto_by_archive.destroy();
 		solutions.destroy();
 		unbounded_archive.resize_solution_set(0);
 		
-		std::cout << run  << "th run is finished." << std::endl;
-	}
-	
-	std::cout << "Hypervolumes" << std::endl;
-	gen = config.number_of_generations - 1;
-	for (run = 0; run < config.number_of_runs; run++)
-	{
-		std::cout << results_archive.archiving_hypervolume(run, gen) << std::endl;
+		std::cout << hv_by_archive << std::endl;
 	}
 
 	if (return_value == -1)
