@@ -14,7 +14,7 @@
         <dependency>
 	    <groupId>com.github.fritsche</groupId>
 	    <artifactId>hhco</artifactId>
-	    <version>f64eb68765</version>
+	    <version>2a8145619c</version>
 	</dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

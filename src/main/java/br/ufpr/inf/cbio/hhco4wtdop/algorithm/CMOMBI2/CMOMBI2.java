@@ -17,7 +17,7 @@
 package br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOMBI2;
 
 import br.ufpr.inf.cbio.hhco.algorithm.MOMBI2.MOMBI2;
-import br.ufpr.inf.cbio.hhco4wtdop.util.R2RankingWithConstraintsNormalized;
+import br.ufpr.inf.cbio.hhco4wtdop.utils.R2RankingWithConstraintsNormalized;
 import java.util.List;
 import org.uma.jmetal.algorithm.multiobjective.mombi.util.R2Ranking;
 import org.uma.jmetal.operator.CrossoverOperator;

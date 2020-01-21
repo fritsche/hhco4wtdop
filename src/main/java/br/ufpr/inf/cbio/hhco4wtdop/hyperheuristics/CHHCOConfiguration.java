@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package br.ufpr.inf.cbio.hhco4wtdop.algorithm.CHHCO;
+package br.ufpr.inf.cbio.hhco4wtdop.hyperheuristics;
 
 import br.ufpr.inf.cbio.hhco.algorithm.HypE.COHypEConfiguration;
 import br.ufpr.inf.cbio.hhco.algorithm.NSGAII.CONSGAIIConfiguration;
@@ -30,7 +30,7 @@ import br.ufpr.inf.cbio.hhco.hyperheuristic.HHCO.logger.SelectedMOEALogger;
 import br.ufpr.inf.cbio.hhco.hyperheuristic.selection.ArgMaxSelection;
 import br.ufpr.inf.cbio.hhco.hyperheuristic.selection.SelectionFunction;
 import br.ufpr.inf.cbio.hhco.metrics.fir.FitnessImprovementRateCalculator;
-import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CHHCO.utils.R2WithConstraintsFIR;
+import br.ufpr.inf.cbio.hhco4wtdop.utils.R2WithConstraintsFIR;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEAD.COCMOEADConfiguration;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEADD.COCMOEADDConfiguration;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOMBI2.COCMOMBI2Configuration;

@@ -16,7 +16,7 @@
  */
 package br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEAD;
 
-import br.ufpr.inf.cbio.hhco4wtdop.util.ConstraintAndFitnessComparator;
+import br.ufpr.inf.cbio.hhco4wtdop.utils.ConstraintAndFitnessComparator;
 import java.util.Comparator;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEAD;
 import org.uma.jmetal.algorithm.multiobjective.moead.util.MOEADUtils;
