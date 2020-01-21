@@ -27,6 +27,7 @@ import br.ufpr.inf.cbio.hhco.hyperheuristic.HHCO.HHCO;
 import br.ufpr.inf.cbio.hhco.hyperheuristic.HHCO.logger.SelectedMOEALogger;
 import br.ufpr.inf.cbio.hhco.hyperheuristic.HHCORandom.HHCORandomBuilder;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEAD.COCMOEADConfiguration;
+import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOEADD.COCMOEADDConfiguration;
 import br.ufpr.inf.cbio.hhco4wtdop.algorithm.CMOMBI2.COCMOMBI2Configuration;
 import org.uma.jmetal.problem.Problem;
 import org.uma.jmetal.solution.Solution;
@@ -63,7 +64,7 @@ public class CHHCORandomConfiguration<S extends Solution> implements AlgorithmCo
                 .addAlgorithm(new COSPEA2Configuration().configure(popSize, maxFitnessEvaluations, problem))
                 .addAlgorithm(new COCMOEADConfiguration().configure(popSize, maxFitnessEvaluations, problem))
                 .addAlgorithm(new CONSGAIIConfiguration().configure(popSize, maxFitnessEvaluations, problem))
-//                .addAlgorithm(new COCMOEADDConfiguration().configure(popSize, maxFitnessEvaluations, problem))
+                .addAlgorithm(new COCMOEADDConfiguration().configure(popSize, maxFitnessEvaluations, problem))
                 .addAlgorithm(new COCMOMBI2Configuration().configure(popSize, maxFitnessEvaluations, problem))
                 .addAlgorithm(new CONSGAIIIConfiguration().configure(popSize, maxFitnessEvaluations, problem))
                 .addAlgorithm(new COThetaDEAConfiguration().configure(popSize, maxFitnessEvaluations, problem))
