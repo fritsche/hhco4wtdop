@@ -3,6 +3,8 @@
 # if any error stop!
 set -e
 
+echo $@ > debug.log
+
 # validate input size
 if [ "$#" -ne 35 ]; then
 	echo -e "Expected <alg> <id> <fe> <v_1> ... <v_32> "
@@ -22,7 +24,7 @@ fe=$(printf "%05d" $fe)
 vars=( "$@" )
 
 # create algorithm result folder
-folder="/proj/ch-geni-net/ggarciab/backup/hhco4wtdop-results/experiment/"$alg"/interface/work_"$id"th"
+folder="root/experiment/"$alg"/interface/work_"$id"th"
 mkdir -p $folder
 
 # create vars file

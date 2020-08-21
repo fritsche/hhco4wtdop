@@ -35,13 +35,17 @@ public class ECSymposium2019CompetitionMethodology implements Methodology {
          */
         this.populationSize = 210;
         /**
-         * The maximum number of evaluations is 10,000, so as to finish each
+         * WARNING: changed for 15,000 to compare HHCO and HHLA!
+         * 
+         * @TODO: fix back to 10,000
+         * 
+         * The maximum number of evaluations is 15,000, so as to finish each
          * optimization within a night.Since it takes about 3 seconds to
          * evaluate one design candidate, it takes about 8 hours to complete one
          * optimization case. However, some algorithms use the number of
          * generations as stop criteria.
          */
-        this.maxFitnessEvaluations = 10000;
+        this.maxFitnessEvaluations = 15000;
     }
 
     @Override
