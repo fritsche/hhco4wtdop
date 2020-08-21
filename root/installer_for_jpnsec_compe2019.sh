@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd hhco4wtdop/root/
+
 pip install virtualenv --user
 virtualenv -p python2.7 jpnsecCompetition2019
 
